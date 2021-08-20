@@ -36,6 +36,9 @@ clicar duas vezes no binário, ou abrir um terminal ou promt de comando e execut
 wifi_resetter_macos_amd64.exe
 ```
 
+>> IMPORTANTE
+> Esta ferramenta deve ser iniciada e não pode ser interrompida, uma vez que a verificação da disponibilidade da conexão deve ser efetuada continuamente.
+
 ## Construir localmente
 
 #### linux e macos
@@ -80,7 +83,7 @@ Considerando que o arquivo **config.json** está no mesmo diretório que o execu
 
 ```
 ├── <diretório de execução do programa>
-│   ├── config.json                                <- arquivo de configuração
+│   ├── config.json                               <- arquivo de configuração
 │   ├── wifi_resetter_<windows/linux/macos>_amd64 <- executável
 
 ```
