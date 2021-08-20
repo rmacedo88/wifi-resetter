@@ -1,0 +1,14 @@
+{
+	"application": {
+		"config-url-test-ip": "1.1.1.1",
+		"config-url-test-port": 80,
+		"config-test-timeout-sec": 5,
+		"config-logging": true
+	},
+	"modem": {
+		"config-url": "http://192.168.25.1/",
+		"config-user": "admin",
+		"config-password": "senha",
+		"config-reset-timeout-min": 15
+	}
+}
