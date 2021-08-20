@@ -20,8 +20,11 @@ if ! go version &>/dev/null; then
   echo "O Makefile utiliza somente instruções de compilação válidas para a distribuição padrão do Go, portanto o GCC GO não é suportado."
   echo "Consulte o link para baixar o compilador Go https://golang.org/dl/"
   exit 1
-elif [ ! "$(go version | awk '{print $3}' | awk -F . '{print $2}')" -ge "16" ]; then
-  echo "A versão mínima requerida para compilar este programa é a go1.16, por favor atualize seu ambiente de desenvolvimento."
+elif [ "$(go version | awk '{print $3}' | awk -F . '{print $2}')" -lt 16 ]; then
+  echo "A versão mínima requerida para compilar este programa é go1.16, por favor atualize seu ambiente de desenvolvimento."
+  echo "Consulte o link para baixar uma versão atualizada: https://golang.org/dl/"
+  echo "Versão do compilador Go encontrada: $(go version)"
+  exit 1
 fi
 
 : '
