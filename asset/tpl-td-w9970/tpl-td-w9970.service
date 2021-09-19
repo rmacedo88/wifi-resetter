@@ -1,0 +1,15 @@
+[Unit]
+Description=TPL tp-w9970 restart
+After=network.target
+RestartSec=1
+StartLimitBurst=5
+StartLimitIntervalSec=2
+
+[Service]
+Type=simple
+Restart=always
+User=rock
+ExecStart=/opt/app/tpl-td-w9970/tpl-td-w9970.service.sh
+
+[Install]
+WantedBy=multi-user.target

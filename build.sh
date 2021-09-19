@@ -31,12 +31,12 @@ fi
   Checa se o sistema possui o Google Chrome instalado.
    É necessaŕio pois o chromedp utiliza-o no modo headless para efetuar o scrapping da página de administração do modem.
 '
-if ! google-chrome --version &>/dev/null; then
-  echo "Navegador Google Chrome não encontrado."
-  echo "A ferramenta de scrapping depende de uma instalação desse navegador e sua ausência tornam inúteis os binários compilados"
-  echo "Consulte o link para baixá-lo https://www.google.com/intl/pt-BR/chrome/"
-  exit 1
-fi
+#if ! google-chrome --version &>/dev/null; then
+#  echo "Navegador Google Chrome não encontrado."
+#  echo "A ferramenta de scrapping depende de uma instalação desse navegador e sua ausência tornam inúteis os binários compilados"
+#  echo "Consulte o link para baixá-lo https://www.google.com/intl/pt-BR/chrome/"
+#  exit 1
+#fi
 
 echo "##### ##### ##### PRE REQUISITOS SATISFEITOS ##### ##### #####"
 
@@ -45,7 +45,7 @@ echo
 echo "##### ##### ##### COMPILANDO OS BINÁRIOS PARA WINDOWS, lINUX E MACOS ##### ##### #####"
 
 : '
-  Exefuta os jobs de compilação presentes no arquivo Makefile.
+  Executa os jobs de compilação presentes no arquivo Makefile.
 '
 make "-j$(cat /proc/cpuinfo | grep siblings | awk 'NR==1 { print $NF }')" || {
   echo 'FALHA NA COMPILAÇÃO DO PROGRAMA. REVISE AS MENSAGENS DE ERRO APRESENTADAS NO TERMINAL E TENTE NOVAMENTE.'
@@ -58,11 +58,14 @@ echo
 
 echo "##### ##### ##### LISTANDO OS ARQUIVOS COMPILADOS ##### ##### #####"
 
-cd bin/ || return
+#cd bin/ || return
 echo "Arquivos compilados no diretório: $(pwd)"
-ls -lh
+ls bin/ -lh
 
-echo
+echo "##### ##### ##### DEPLOY NO DISPOSITIVO ##### ##### #####"
+
+adb push $(pwd)/asset/tpl-td-w9970 /opt/app/tpl-td-w9970
+adb shell /opt/app/tpl-td-w9970/install_service.sh
 
 echo "##### ##### ##### TRABALHO FINALIZADO ##### ##### #####"
 

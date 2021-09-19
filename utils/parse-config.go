@@ -10,21 +10,23 @@ import (
 type Config struct {
 	Application struct {
 		ConfigUrlTestIp      string `json:"config-url-test-ip"`
-		ConfigUrlTestPort    int    `json:"config-url-test-port"`
-		ConfigTestTimeoutSec int    `json:"config-test-timeout-sec"`
+		ConfigUrlTestPort    uint16 `json:"config-url-test-port"`
+		ConfigTestTimeoutSec uint8  `json:"config-test-timeout-sec"`
 		ConfigLogging        bool   `json:"config-logging"`
 	} `json:"application"`
 	Modem struct {
 		ConfigUrl             string `json:"config-url"`
 		ConfigUser            string `json:"config-user"`
 		ConfigPassword        string `json:"config-password"`
-		ConfigResetTimeoutMin int    `json:"config-reset-timeout-min"`
+		ConfigResetTimeoutMin uint8  `json:"config-reset-timeout-min"`
 	} `json:"modem"`
 }
 
 func (currentInstance *Config) Parse() {
 
-	jsonFile, err := os.Open("config.json")
+	configFileLocation := os.Getenv("WR_CFG")
+
+	jsonFile, err := os.Open(configFileLocation)
 
 	if err != nil {
 		log.Fatal(err)
