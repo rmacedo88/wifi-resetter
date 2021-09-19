@@ -13,6 +13,32 @@ if ! make -v &>/dev/null; then
 fi
 
 : '
+  Checa se a ferramenta adb está disponível no sistema
+'
+if ! adb --version &>/dev/null; then
+  echo "Comando adb não está disponível."
+  echo "O deploy da aplicação no dispositivo depende desta ferramenta."
+  echo "Consulte o link para maiores detalhes https://wiki.radxa.com/RockpiS/dev/adb"
+  exit 1
+
+  : '
+  Checa se o dispositivo está conectado
+'
+elif [ ! "$(adb get-state)" == "device" ]; then
+  echo "O seu dispositivo não está conectado."
+  echo "Verifique a conexão e tente novamente."
+  exit 1
+
+  : '
+  Checa se o chromium-browser está instalado no dispositivo
+'
+elif ! adb shell which chromium-browser &>/dev/null; then
+  echo "O navegador Chromium não está instalado no dispositivo."
+  echo "Consulte a documentação para obter informações sobre sistema instalado e o gestor de pacotes disponível. https://rockpi.eu/RockpiS/getting_started"
+  echo "Caso tenha optado pelo ubuntu, utilize o comando $(sudo apt-get install chromium-browser) pode demorar consoante a velocidade do cartão uSD instalado."
+fi
+
+: '
   Checa se o compilador da linguagem GoLang está instalado no sistema
 '
 if ! go version &>/dev/null; then
@@ -58,13 +84,14 @@ echo
 
 echo "##### ##### ##### LISTANDO OS ARQUIVOS COMPILADOS ##### ##### #####"
 
-#cd bin/ || return
 echo "Arquivos compilados no diretório: $(pwd)"
-ls bin/ -lh
+ls assets/tplink-td-w9970/ -lh
 
 echo "##### ##### ##### DEPLOY NO DISPOSITIVO ##### ##### #####"
 
-adb push $(pwd)/asset/tpl-td-w9970 /opt/app/tpl-td-w9970
+adb shell mkdir -p /opt/app/tpl-td-w9970
+adb push $(pwd)/assets/tplink-td-w9970/* /opt/app/tpl-td-w9970/
+adb shell chmod +x /opt/app/tpl-td-w9970/install_service.sh
 adb shell /opt/app/tpl-td-w9970/install_service.sh
 
 echo "##### ##### ##### TRABALHO FINALIZADO ##### ##### #####"
