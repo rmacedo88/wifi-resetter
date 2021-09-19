@@ -1,4 +1,4 @@
-__PREFIX=./asset/tpl-td-w9970/wifi_resetter
+__PREFIX=./assets/tplink-td-w9970/wifi_resetter
 __GOOS=$(pwd)
 LINUX=$(__PREFIX)
 VERSION=$(shell git describe --tags --always --long)
